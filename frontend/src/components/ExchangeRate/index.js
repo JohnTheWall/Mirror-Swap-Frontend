@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
+import { isEmptyObject } from '../../utils';
 
 const ExchangeRates = ({
   inputCurrency,
   outputCurrency,
-  exchangeRate
 }) => {
   return (
     <Grid container justify="space-between">
@@ -14,15 +14,20 @@ const ExchangeRates = ({
         Exchange Rate:
       </Typography>
 
-      <Typography variant='subtitle1'>
-        {`${1} ${inputCurrency.symbol} = ${exchangeRate} ${outputCurrency.symbol}`}
-      </Typography>
+      {
+        !isEmptyObject(inputCurrency) && !isEmptyObject(outputCurrency) && (
+          <Typography variant='subtitle1'>
+            {
+              `${1} ${inputCurrency.symbol} = ${inputCurrency.exchangeRate/outputCurrency.exchangeRate} ${outputCurrency.symbol}`
+            }
+          </Typography>
+        )
+      }
     </Grid>
   );
 };
 
 ExchangeRates.propTypes = {
-  exchangeRate: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
   inputCurrency: PropTypes.object,
   outputCurrency: PropTypes.object,
 };

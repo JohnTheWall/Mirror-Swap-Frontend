@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 const SwapInput = ({
   inputValue,
   handleInputChange,
@@ -26,7 +25,7 @@ const SwapInput = ({
   const classes = useStyles()
   return (
     <Grid container spacing={2} justify="center">
-      <Grid item xs={12} sm={8}>
+      <Grid item xs={12} md={8}>
         <InputField
           className={classes.inputCountrol}
           required
@@ -38,7 +37,7 @@ const SwapInput = ({
           onChange={handleInputChange}
         />
       </Grid>
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} md={4}>
         <InputField
           className={classes.select}
           select
