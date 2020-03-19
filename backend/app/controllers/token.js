@@ -1,5 +1,6 @@
 const Responder = require('../../lib/expressResponder')
 const { getTokens } = require('../service/coinmarketCap')
+const { ETH_CURRENCY } = require('../../constants')
 
 class WalletController {
   static async getERC20Tokens (req, res, schema) {
@@ -10,10 +11,11 @@ class WalletController {
       id: token.id,
       name: token.name,
       symbol: token.symbol,
-      exchangeRate: token.quote.ETH.price
+      exchangeRate: token.quote.ETH.price,
+      tokenAddress: token.platform.token_address
     }))
 
-    Responder.created(res, tokens)
+    Responder.created(res, [ETH_CURRENCY, ...tokens])
   }
 }
 
