@@ -1,6 +1,6 @@
 const coinmarketcapHost = 'https://sandbox-api.coinmarketcap.com'
 
-export const fetchCurrencyUrl = `${coinmarketcapHost}/v1/cryptocurrency/listings/latest`
+export const fetchCurrencyUrl = `${coinmarketcapHost}/v1/cryptocurrency/listings/latest?cryptocurrency_type=tokens&convert=ETH`
 export const fetchExchangeRatesUrl = `${coinmarketcapHost}/v1/public/asset-service/product/currency`
 
 

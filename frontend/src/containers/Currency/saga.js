@@ -13,10 +13,6 @@ function* fetchCurrencies() {
       headers: {
         'X-CMC_PRO_API_KEY': process.env.REACT_APP_COIN_MARKETCAP_API_KEY
       },
-      params: {
-        start: 1,
-        limit: 100
-      }
     }).then(async response => {
       if (response.data.status.error_code !== 0) {
         throw response.data

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrencies } from '../Currency/reducer';
 import Swap from '../../components/Swap'
 
 const Main = (props) => {
-  return (<Swap {...props}/>);
+  const { getCurrencies, ...otherProps } = props
+
+  console.log('Currency:  ', props.currencies)
+
+  useEffect(() => {
+    getCurrencies();
+  }, [getCurrencies]);
+  return (<Swap {...otherProps}/>);
 }
 
 Main.propTypes = {
