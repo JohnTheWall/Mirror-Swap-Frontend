@@ -7,8 +7,6 @@ import Swap from '../../components/Swap'
 const Main = (props) => {
   const { getCurrencies, ...otherProps } = props
 
-  console.log('Currency:  ', props.currencies)
-
   useEffect(() => {
     getCurrencies();
   }, [getCurrencies]);

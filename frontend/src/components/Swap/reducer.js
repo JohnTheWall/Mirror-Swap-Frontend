@@ -4,8 +4,6 @@ const getOutputValue = (inputValue, inputCurrency, outputCurrency) => {
   if(isEmptyObject(outputCurrency) || isEmptyObject(inputCurrency)) {
     return 0
   }
-  console.log(inputValue, inputCurrency, outputCurrency);
-  console.log((inputValue * inputCurrency.exchangeRate)/(outputCurrency.exchangeRate));
   return (inputValue * inputCurrency.exchangeRate)/(outputCurrency.exchangeRate);
 }
 

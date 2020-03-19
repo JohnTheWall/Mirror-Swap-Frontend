@@ -33,13 +33,12 @@ const Header = ({ user, isAvailable, setIsDialogOpen }) => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="button" className={classes.title}>
-          Fabrx
+          Mirror Swap
         </Typography>
         {!!user.address
           ? <Button
             color="inherit"
             className={classes.address}
-            onClick={() => setIsDialogOpen(true)}
           >
             {`Account: ${shortAddressString}`}
           </Button>
