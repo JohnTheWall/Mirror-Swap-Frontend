@@ -30,7 +30,6 @@ const SwapInput = ({
           className={classes.inputCountrol}
           required
           label={inputLabel}
-          autoFocus
           name="Input"
           type="number"
           value={inputValue || ''}

@@ -7,6 +7,8 @@ import ExchangeRate from '../ExchangeRate'
 import SwapInput from '../Fields';
 import SwapHeader from './Header';
 import { reducer, initialArg } from './reducer';
+import { isEmptyObject } from '../../utils';
+import CustomButton from '../CustomButton';
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -23,21 +25,31 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Swap = ({ currencies, user }) => {
+const Swap = ({ currencies, startContractDeployment, loading }) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialArg);
+
+  const handleSwapButtonClick = () => {
+    startContractDeployment(state);
+  }
+
+  const disableButton = isEmptyObject(state.inputCurrency) || 
+    isEmptyObject(state.outputCurrency) || 
+    state.inputValue <= 0 || 
+    state.outputValue <= 0 ||
+    loading;
 
   return (
     <Box m={4}>
       <Grid container justify="center">
         <Grid item xs={10} sm={7}>
           <Paper variant="outlined" className={classes.customPaper}>
-            <SwapHeader title="Swap" user={user} />
+            <SwapHeader title="Swap"/>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <SwapInput
                       inputValue={state.inputValue}
-                      handleInputChange={(e) => dispatch({ type: 'inputValue', payload: parseInt(e.target.value, 10) })}
+                      handleInputChange={(e) => dispatch({ type: 'inputValue', payload: parseFloat(e.target.value, 10) })}
                       currency={state.inputCurrency}
                       handleCurrencyChange={(e, { props }) => dispatch({ type: 'inputCurrency', payload: props.currency })}
                       currencies={currencies}
@@ -55,7 +67,7 @@ const Swap = ({ currencies, user }) => {
                     </div>
                     <SwapInput
                       inputValue={state.outputValue}
-                      handleInputChange={(e) => dispatch({ type: 'outputValue', payload: parseInt(e.target.value, 10) })}
+                      handleInputChange={(e) => dispatch({ type: 'outputValue', payload: parseFloat(e.target.value, 10) })}
                       currency={state.outputCurrency}
                       handleCurrencyChange={(e, { props }) => dispatch({ type: 'outputCurrency', payload: props.currency })}
                       currencies={currencies}
@@ -68,9 +80,19 @@ const Swap = ({ currencies, user }) => {
                     />
                   </Grid>
                   <div className={classes.swapButtonContainer}>
-                    <Button variant="contained" color="primary" disableElevation>
-                      swap
-                    </Button>
+                    <CustomButton 
+                      title="Swap"
+                      disabled={disableButton}
+                      onClick={handleSwapButtonClick}
+                      loading={loading}
+                    />
+                    {/* <Button 
+                      variant="contained" 
+                      color="primary" 
+                      disabled={disableButton}
+                      onClick={handleSwapButtonClick}>
+                      Swap
+                    </Button> */}
                   </div>
                 </Grid>
             </Paper>
@@ -80,10 +102,10 @@ const Swap = ({ currencies, user }) => {
   );
 };
 
-
 Swap.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
-  user: PropTypes.object
+  startContractDeployment: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default Swap;

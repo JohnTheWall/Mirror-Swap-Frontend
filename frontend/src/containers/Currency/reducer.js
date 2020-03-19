@@ -1,26 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { INITIAL_CURRENCY_DATA } from '../../constants'
-
-const defaultETHCurrency = {
-  id: 231132131,
-  name: 'Ethereum',
-  symbol: 'ETH',
-  exchangeRate: 1
-}
 
 const configSlice = createSlice({
   name: 'currencies',
   initialState: {
     error: null,
     loading: false,
-    currencies: INITIAL_CURRENCY_DATA
+    currencies: []
   },
   reducers: {
     getCurrencies(state) {
       state.loading = true;
     },
     successInGettingCurrencies(state, action) {
-      state.currencies = [ defaultETHCurrency, ...action.payload];
+      state.currencies = action.payload;
       state.loading = false;
     },
     errorInGettingCurrencies(state, action) {
