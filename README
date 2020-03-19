@@ -1,1 +1,18 @@
-Frontend for the MirrorSwap smart contract protocol.
+# Frontend for the MirrorSwap smart contract protocol.
+
+## Code
+
+The code is divided into two folders. The `./backend` contains proxy server and `./frontend` contains react app.
+  
+
+### Steps
+
+Backend:
+- Go to backend folder. `cd ./backend`
+- Install dependencies. `yarn install` 
+- Start the server. `yarn start`
+
+Frontend:
+- Go to backend folder. `cd ./frontend`
+- Install dependencies. `yarn install` 
+- Start the server. `yarn start`
