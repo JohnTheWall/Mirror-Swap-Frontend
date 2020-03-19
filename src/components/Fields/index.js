@@ -5,19 +5,11 @@ import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    margin: theme.spacing(1),
-  },
-  item: {
-    margin: theme.spacing(1),
-  },
   select: {
     width: '100%',
   },
   inputCountrol: {
     width: '100%',
-    marginRight: '30px',
   },
 }));
 
@@ -33,8 +25,8 @@ const SwapInput = ({
 }) => {
   const classes = useStyles()
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12} sm={6} className={classes.item}>
+    <Grid container spacing={2} justify="center">
+      <Grid item xs={12} sm={8}>
         <InputField
           className={classes.inputCountrol}
           required
@@ -46,7 +38,7 @@ const SwapInput = ({
           onChange={handleInputChange}
         />
       </Grid>
-      <Grid item xs={12} sm={4} className={classes.item}>
+      <Grid item xs={12} sm={4}>
         <InputField
           className={classes.select}
           select

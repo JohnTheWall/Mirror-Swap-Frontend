@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Grid, Box, Card, Paper } from '@material-ui/core';
+import { Button, Grid, Box, Paper } from '@material-ui/core';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import ExchangeRate from '../ExchangeRate'
 import { calculateExchangeRate } from '../../utils/calculator'
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     color: '#000 !important',
   },
   customPaper: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
   }
 }));
 
@@ -97,7 +97,7 @@ const Swap = ({ currencies, user }) => {
         <Grid item xs={10} sm={6}>
           <Paper variant="outlined" className={classes.customPaper}>
             <SwapHeader title="Swap" user={user} />
-                <Grid spacing={2}>
+                <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <SwapInput
                       inputValue={inputValue}
