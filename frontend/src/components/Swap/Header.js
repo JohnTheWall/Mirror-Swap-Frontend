@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SwapHeader = ({ title, user }) => {
+const SwapHeader = ({ title }) => {
   const classes = useStyles();
 
   return (

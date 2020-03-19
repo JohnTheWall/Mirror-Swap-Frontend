@@ -3,6 +3,8 @@ const coinmarketcapHost = 'https://sandbox-api.coinmarketcap.com'
 export const fetchCurrencyUrl = `${coinmarketcapHost}/v1/cryptocurrency/listings/latest?cryptocurrency_type=tokens&convert=ETH`
 export const fetchExchangeRatesUrl = `${coinmarketcapHost}/v1/public/asset-service/product/currency`
 
+// export const backendUrl = process.env.BACKEND_URL; 
+export const backendUrl = 'http://localhost:3001'; 
 
 export const NETWORK_CHAIN_ID = {
   1: 'Mainnet',
@@ -13,8 +15,8 @@ export const NETWORK_CHAIN_ID = {
   42: 'Kovan',
 };
 
-export const CHROME_INSTALLATION = 'https://www.google.com/chrome/browser/desktop/';
-export const METAMASK_CHROME_EXTENSION = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en';
+// export const CHROME_INSTALLATION = 'https://www.google.com/chrome/browser/desktop/';
+// export const METAMASK_CHROME_EXTENSION = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en';
 
 export const INITIAL_CURRENCY_DATA = [
   {
