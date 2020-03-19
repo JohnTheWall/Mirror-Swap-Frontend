@@ -4,24 +4,13 @@ import {
   successInGettingCurrencies,
   errorInGettingCurrenciese
 } from './reducer';
-import { fetchCurrencyUrl } from '../../constants'
+import { backendUrl } from '../../constants'
 import Axios from 'axios'
 
 function* fetchCurrencies() {
   try {
-    const json = yield Axios.get(fetchCurrencyUrl, {
-      headers: {
-        'X-CMC_PRO_API_KEY': process.env.REACT_APP_COIN_MARKETCAP_API_KEY
-      },
-    }).then(async response => {
-      if (response.data.status.error_code !== 0) {
-        throw response.data
-      }
-
-      return response.data.data
-    });
-
-    yield put(successInGettingCurrencies(json));
+    const response = yield Axios.get(`${backendUrl}/tokens`)
+    yield put(successInGettingCurrencies(response.data));
   } catch (e) {
     console.log('Error in fetchCurrencies ----------: ', e);
     yield put(errorInGettingCurrenciese(e.message));
