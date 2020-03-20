@@ -1,5 +1,3 @@
-const coinmarketcapHost = 'https://sandbox-api.coinmarketcap.com'
-
 export const backendUrl = 'http://localhost:3001'; 
 
 export const NETWORK_CHAIN_ID = {
@@ -9,5 +7,11 @@ export const NETWORK_CHAIN_ID = {
   4: 'Rinkeby',
   5: 'Goerli',
   42: 'Kovan',
+  Mainnet: 1,
+  Morden: 2,
+  Ropsten: 3,
+  Rinkeby: 4,
+  Goerli: 5,
+  Kovan: 42,
 };
 

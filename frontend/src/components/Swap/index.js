@@ -9,6 +9,7 @@ import SwapHeader from './SwapHeader';
 import { reducer, initialArg } from './reducer';
 import { isEmptyObject } from '../../utils';
 import CustomButton from '../CustomButton';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Swap = ({ currencies, startContractDeployment, loading, user }) => {
+const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet }) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialArg);
 
@@ -38,6 +39,7 @@ const Swap = ({ currencies, startContractDeployment, loading, user }) => {
     state.inputValue <= 0 || 
     state.outputValue <= 0 ||
     loading ||
+    !isMainnet ||
     !user.address;
 
   return (
@@ -80,21 +82,23 @@ const Swap = ({ currencies, startContractDeployment, loading, user }) => {
                       outputCurrency={state.outputCurrency}
                     />
                   </Grid>
-                  <div className={classes.swapButtonContainer}>
-                    <CustomButton 
-                      title="Swap"
-                      disabled={disableButton}
-                      onClick={handleSwapButtonClick}
-                      loading={loading}
-                    />
-                    {/* <Button 
-                      variant="contained" 
-                      color="primary" 
-                      disabled={disableButton}
-                      onClick={handleSwapButtonClick}>
-                      Swap
-                    </Button> */}
-                  </div>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item xs={4}>
+                      <CustomButton 
+                        title="Swap"
+                        disabled={disableButton}
+                        onClick={handleSwapButtonClick}
+                        loading={loading}
+                      />
+                    </Grid>
+                    {
+                      !isMainnet && (
+                        <Typography variant='subtitle1'>
+                          We are only supporting Mainnet!
+                        </Typography>
+                      )
+                    }
+                  </Grid>
                 </Grid>
             </Paper>
         </Grid>
@@ -108,6 +112,7 @@ Swap.propTypes = {
   startContractDeployment: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  isMainnet: PropTypes.bool.isRequired,
 };
 
 export default Swap;
