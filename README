@@ -7,6 +7,9 @@ The code is divided into two folders. The `./backend` contains proxy server and 
 
 ### Steps To Run
 
+Update the file `./envs/backend.env` file with COIN_MARKETCAP_API_KEY.
+
+
 Backend:
 - Run `docker-compose up backend`
 
