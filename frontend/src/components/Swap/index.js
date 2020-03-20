@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid, Box, Paper } from '@material-ui/core';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import ExchangeRate from '../ExchangeRate'
-import SwapInput from '../Fields';
-import SwapHeader from './Header';
+import SwapInput from '../SwapInput';
+import SwapHeader from './SwapHeader';
 import { reducer, initialArg } from './reducer';
 import { isEmptyObject } from '../../utils';
 import CustomButton from '../CustomButton';
