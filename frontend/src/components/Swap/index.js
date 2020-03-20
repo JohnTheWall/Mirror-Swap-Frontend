@@ -4,11 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid, Box, Paper } from '@material-ui/core';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import ExchangeRate from '../ExchangeRate'
-import SwapInput from '../Fields';
-import SwapHeader from './Header';
+import SwapInput from '../SwapInput';
+import SwapHeader from './SwapHeader';
 import { reducer, initialArg } from './reducer';
 import { isEmptyObject } from '../../utils';
 import CustomButton from '../CustomButton';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Swap = ({ currencies, startContractDeployment, loading }) => {
+const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet }) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialArg);
 
@@ -37,7 +38,9 @@ const Swap = ({ currencies, startContractDeployment, loading }) => {
     isEmptyObject(state.outputCurrency) || 
     state.inputValue <= 0 || 
     state.outputValue <= 0 ||
-    loading;
+    loading ||
+    !isMainnet ||
+    !user.address;
 
   return (
     <Box m={4}>
@@ -79,21 +82,23 @@ const Swap = ({ currencies, startContractDeployment, loading }) => {
                       outputCurrency={state.outputCurrency}
                     />
                   </Grid>
-                  <div className={classes.swapButtonContainer}>
-                    <CustomButton 
-                      title="Swap"
-                      disabled={disableButton}
-                      onClick={handleSwapButtonClick}
-                      loading={loading}
-                    />
-                    {/* <Button 
-                      variant="contained" 
-                      color="primary" 
-                      disabled={disableButton}
-                      onClick={handleSwapButtonClick}>
-                      Swap
-                    </Button> */}
-                  </div>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item xs={4}>
+                      <CustomButton 
+                        title="Swap"
+                        disabled={disableButton}
+                        onClick={handleSwapButtonClick}
+                        loading={loading}
+                      />
+                    </Grid>
+                    {
+                      !isMainnet && (
+                        <Typography variant='subtitle1'>
+                          We are only supporting Mainnet!
+                        </Typography>
+                      )
+                    }
+                  </Grid>
                 </Grid>
             </Paper>
         </Grid>
@@ -105,7 +110,9 @@ const Swap = ({ currencies, startContractDeployment, loading }) => {
 Swap.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
   startContractDeployment: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  isMainnet: PropTypes.bool.isRequired,
 };
 
 export default Swap;

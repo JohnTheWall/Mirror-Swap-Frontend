@@ -4,6 +4,10 @@ const express = require('./express')
 const onTerminationShutGracefully = require('./shutdown')
 
 function createServer (app) {
+  const PORT = process.env.PORT
+
+  if (!PORT) throw Error('PORT has not been provided')
+
   return http.createServer(app).listen(process.env.PORT)
 }
 

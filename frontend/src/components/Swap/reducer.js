@@ -32,13 +32,15 @@ export const reducer = (state, action) => {
       return { 
         ...state, 
         inputCurrency: action.payload,
-        outputValue: getOutputValue(state.inputValue, action.payload, state.outputCurrency)
+        outputValue: getOutputValue(state.inputValue, action.payload, state.outputCurrency),
+        outputCurrency: state.outputCurrency.symbol === action.payload.symbol ? {} : state.outputCurrency,
       };
     case 'outputCurrency':
       return { 
         ...state, 
         outputCurrency: action.payload,
-        outputValue: getOutputValue(state.inputValue, state.inputCurrency, action.payload)
+        outputValue: getOutputValue(state.inputValue, state.inputCurrency, action.payload),
+        inputCurrency: state.inputCurrency.symbol === action.payload.symbol ? {} : state.inputCurrency,
       };
     case 'handleSwap':
       return { 
