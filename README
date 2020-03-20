@@ -5,14 +5,13 @@
 The code is divided into two folders. The `./backend` contains proxy server and `./frontend` contains react app.
   
 
-### Steps
+### Steps To Run
 
 Backend:
-- Go to backend folder. `cd ./backend`
-- Install dependencies. `yarn install` 
-- Start the server. `yarn start`
+- Run `docker-compose up backend`
 
 Frontend:
-- Go to backend folder. `cd ./frontend`
-- Install dependencies. `yarn install` 
-- Start the server. `yarn start`
+- Run `docker-compose up frontend`
+
+To Run Both
+- Run `docker-compose up`
