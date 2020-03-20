@@ -27,7 +27,7 @@ const { actions, reducer } = configSlice;
 export const {
   getCurrencies,
   successInGettingCurrencies,
-  errorInGettingCurrenciese
+  errorInGettingCurrencies
 } = actions;
 // Export the reducer, either as a default or named export
 export default reducer;

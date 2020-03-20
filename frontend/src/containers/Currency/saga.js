@@ -2,7 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import {
   getCurrencies,
   successInGettingCurrencies,
-  errorInGettingCurrenciese
+  errorInGettingCurrencies
 } from './reducer';
 import { backendUrl } from '../../constants'
 import Axios from 'axios'
@@ -13,7 +13,7 @@ function* fetchCurrencies() {
     yield put(successInGettingCurrencies(response.data));
   } catch (e) {
     console.log('Error in fetchCurrencies ----------: ', e);
-    yield put(errorInGettingCurrenciese(e.message));
+    yield put(errorInGettingCurrencies(e.message));
   }
 }
 

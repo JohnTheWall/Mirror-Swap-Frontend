@@ -16,6 +16,7 @@ const Main = (props) => {
 }
 
 Main.propTypes = {
+  user: PropTypes.object.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
   getCurrencies: PropTypes.func.isRequired,
   startContractDeployment: PropTypes.func.isRequired,
@@ -27,6 +28,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
+  user: state.user,
   currencies: state.currency.currencies,
   loading: state.currency.loading || state.contract.loading
 });

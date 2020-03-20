@@ -1,7 +1,5 @@
 import { put, call } from 'redux-saga/effects';
-// import { startUpdateAccount } from '../User/reducer';
 import { updateMetaMask } from '../Metamask/reducer';
-// import { history } from '../../app/store'
 import { initializeWeb3, isMetamaskInstalled } from '../../utils/metamask';
 import { startUpdateAccount } from '../User/reducer';
 

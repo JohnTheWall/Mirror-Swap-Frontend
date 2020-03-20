@@ -5,7 +5,6 @@ const configSlice = createSlice({
   initialState: {
     address: '',
     balance: '',
-    incrementCountOfUser: 0,
     error: '',
   },
   reducers: {
@@ -13,7 +12,6 @@ const configSlice = createSlice({
     updateAccount(state, action) {
       state.address = action.payload.address;
       state.balance = action.payload.balance;
-      state.incrementCountOfUser = action.payload.incrementCountOfUser;
     },
     updateAccountFailure(state, action) {
       state.error = action.payload.error;

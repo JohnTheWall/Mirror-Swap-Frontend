@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Swap = ({ currencies, startContractDeployment, loading }) => {
+const Swap = ({ currencies, startContractDeployment, loading, user }) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialArg);
 
@@ -37,7 +37,8 @@ const Swap = ({ currencies, startContractDeployment, loading }) => {
     isEmptyObject(state.outputCurrency) || 
     state.inputValue <= 0 || 
     state.outputValue <= 0 ||
-    loading;
+    loading ||
+    !user.address;
 
   return (
     <Box m={4}>
@@ -105,7 +106,8 @@ const Swap = ({ currencies, startContractDeployment, loading }) => {
 Swap.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
   startContractDeployment: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default Swap;
