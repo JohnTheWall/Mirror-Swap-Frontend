@@ -5,6 +5,7 @@ import userSaga from '../containers/User/saga';
 import currecySaga from '../containers/Currency/saga'
 import startupSaga from '../containers/Startup/saga';
 import mirrorSwapContractSaga from '../containers/Main/saga';
+import mirrorSwapSaga from '../containers/MirrorSwapContract/saga';
 
 function* rootSaga() {
   yield all(
@@ -13,6 +14,7 @@ function* rootSaga() {
       fork(metamaskSaga),
       fork(mirrorSwapContractSaga),
       fork(userSaga),
+      fork(mirrorSwapSaga),
       fork(currecySaga)
     ]
   );
