@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { 
   startContractDeployment,
   contractDeploymentSuccess,
@@ -8,6 +8,9 @@ import {
 import { setOpen } from '../Notifications/reducer';
 import MirrorSwap from '../../contracts/mirrorSwap';
 import ERC20 from '../../contracts/erc20';
+import { push } from 'connected-react-router'
+
+export const getUser = state => state.user;
 
 function* deployContract(action) {
   try {
@@ -17,13 +20,21 @@ function* deployContract(action) {
     const takerAsset = outputCurrency.tokenAddress;
     
     let makerAssetAmount, takerAssetAmount;
-    
+    const user = yield select(getUser);
+    let balance;
+
     if (inputCurrency.symbol !== 'ETH') {
       const inputContract  = new ERC20(makerAsset);
       const inputCurrencyDecimals = yield call(inputContract.getDecimals.bind(inputContract));
       makerAssetAmount = new BigNumber(inputValue).multipliedBy(`1e${inputCurrencyDecimals}`).toFixed(0).toString();
+      balance = yield call(inputContract.getBalance.bind(inputContract), user.address);
     } else {
       makerAssetAmount = new BigNumber(inputValue).multipliedBy(1e18).toFixed().toString();
+      balance = user.balance
+    }
+
+    if (!(new BigNumber(balance)).isGreaterThanOrEqualTo(makerAssetAmount)) {
+      throw Error('Insufficient Balance!')
     }
 
     if (outputCurrency.symbol !== 'ETH') {
@@ -43,7 +54,9 @@ function* deployContract(action) {
       makerAssetAmount,
       takerAssetAmount,
     );
-    console.log('DATA : ', data);
+
+    const contractAddress = data.options.address;
+    yield put(push(`/fill/${contractAddress}`));
     yield put(contractDeploymentSuccess(data));
     yield put(setOpen({ isSuccess: true, message: 'Contract Deployed Successfully !' }))
   } catch (e) {

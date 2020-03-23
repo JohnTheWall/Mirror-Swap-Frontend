@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Header = ({ user, isAvailable, setIsDialogOpen }) => {
+const Header = ({ user, isAvailable, setIsDialogOpen, goToHome }) => {
   const classes = useStyles();
 
   const { address } = user
@@ -32,9 +32,10 @@ const Header = ({ user, isAvailable, setIsDialogOpen }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="button" className={classes.title}>
+        <Button color="inherit" onClick={goToHome}>
           Mirror Swap
-        </Typography>
+        </Button>
+        <Typography variant="button" className={classes.title}></Typography>
         {!!user.address
           ? <Button
             color="inherit"
@@ -60,7 +61,8 @@ const Header = ({ user, isAvailable, setIsDialogOpen }) => {
 Header.propTypes = {
   user: PropTypes.object.isRequired,
   isAvailable: PropTypes.bool.isRequired,
-  setIsDialogOpen: PropTypes.func.isRequired
+  setIsDialogOpen: PropTypes.func.isRequired,
+  goToHome: PropTypes.func.isRequired,
 };
 
 export default Header;

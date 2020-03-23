@@ -5,6 +5,7 @@ import notifications from '../containers/Notifications/reducer';
 import { connectRouter } from 'connected-react-router';
 import currency from '../containers/Currency/reducer'
 import contract from '../containers/Main/reducer';
+import mirrorSwapContract from '../containers/MirrorSwapContract/reducer';
 
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -12,6 +13,7 @@ const createRootReducer = (history) => combineReducers({
   user,
   notifications,
   currency,
+  mirrorSwapContract,
   contract
 });
 
