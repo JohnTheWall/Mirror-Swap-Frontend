@@ -7,6 +7,7 @@ import { setClose } from '../containers/Notifications/reducer';
 import { connectMetamask } from '../containers/Metamask/reducer'
 import Header from '../components/Header/'
 import DialogBox from '../components/Dialog'
+import { push } from 'connected-react-router'
 
 const App = (props) => {
   const { setClose, isAvailable, connectMetamask, user } = props
@@ -19,6 +20,7 @@ const App = (props) => {
         user={user}
         isAvailable={isAvailable}
         setIsDialogOpen={setIsDialogOpen}
+        goToHome={() => props.push('/')}
       />
       <DialogBox
         isDialogOpen={isDialogOpen}
@@ -33,7 +35,8 @@ const App = (props) => {
 
 const matchDispatchToProps = {
   setClose,
-  connectMetamask
+  connectMetamask,
+  push,
 };
 
 const mapStateToProps = (state) => ({
