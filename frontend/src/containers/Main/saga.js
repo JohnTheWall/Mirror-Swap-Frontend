@@ -8,6 +8,7 @@ import {
 import { setOpen } from '../Notifications/reducer';
 import MirrorSwap from '../../contracts/mirrorSwap';
 import ERC20 from '../../contracts/erc20';
+import { push } from 'connected-react-router'
 
 function* deployContract(action) {
   try {
@@ -43,7 +44,9 @@ function* deployContract(action) {
       makerAssetAmount,
       takerAssetAmount,
     );
-    console.log('DATA : ', data);
+
+    const contractAddress = data.options.address;
+    yield put(push(`/fill/${contractAddress}`));
     yield put(contractDeploymentSuccess(data));
     yield put(setOpen({ isSuccess: true, message: 'Contract Deployed Successfully !' }))
   } catch (e) {
