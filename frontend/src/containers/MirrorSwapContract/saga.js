@@ -1,4 +1,5 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import BigNumber from 'bignumber.js'
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { 
   getContractState,
   getContractStateSuccess,
@@ -11,6 +12,11 @@ import {
 } from './reducer';
 import { setOpen } from '../Notifications/reducer';
 import MirrorSwap from '../../contracts/mirrorSwap';
+import ERC20 from '../../contracts/erc20';
+import { EMPTY_ADDRESS } from '../../constants';
+
+export const getContractData = state => state.mirrorSwapContract.contractData;
+export const getUser = state => state.user;
 
 function* getContractStateSaga(action) {
   try {
@@ -28,6 +34,18 @@ function* getContractStateSaga(action) {
 
 function* swapTakerAssetSaga(action) {
   try {
+    const contract = yield select(getContractData);
+    if(contract.takerAssetAddress !== EMPTY_ADDRESS) {
+      const inputContract = new ERC20(contract.takerAssetAddress);
+      const user = yield select(getUser);
+
+      const balance = yield call(inputContract.getBalance.bind(inputContract), user.address);
+      
+      if (!(new BigNumber(balance)).isGreaterThanOrEqualTo(contract.takerAssetAmount)) {
+        throw Error('Insufficient Balance!')
+      }
+    }
+
     const contractAddress = action.payload;
     const mirrorSwapContract = new MirrorSwap(contractAddress);
     const contractState = yield call(mirrorSwapContract.swapTakerAsset.bind(mirrorSwapContract));
@@ -42,6 +60,17 @@ function* swapTakerAssetSaga(action) {
 
 function* depositMakerAssetSaga(action) {
   try {
+    const contract = yield select(getContractData);
+
+    if(contract.makerAssetAddress !== EMPTY_ADDRESS) {
+      const inputContract = new ERC20(contract.makerAssetAddress);
+      const balance = yield call(inputContract.getBalance.bind(inputContract), contract.makerWalletAdress);
+
+      if (!(new BigNumber(balance)).isGreaterThanOrEqualTo(contract.makerAssetAmount)) {
+        throw Error('Insufficient Balance!')
+      }
+    }
+    
     const contractAddress = action.payload;
     const mirrorSwapContract = new MirrorSwap(contractAddress);
     const txHash = yield call(mirrorSwapContract.depositMakerAsset.bind(mirrorSwapContract));

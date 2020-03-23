@@ -9,7 +9,6 @@ import {
   swapTakerAsset,
   cancelSwap,
 } from './reducer';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Loader from '../../components/Loader';
 
 const MirrorSwapContract = ({ getContractState, swapContractAddress, loadingContractState, isMaker, ...props }) => {
