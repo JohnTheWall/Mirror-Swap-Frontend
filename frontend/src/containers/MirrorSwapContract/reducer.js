@@ -15,6 +15,11 @@ const configSlice = createSlice({
       takerWalletAddress: '',
       RevertTimestamp: '',
       swapComplete: false,
+      isTokensApprovedByMaker: false,
+      isTokensApprovedByTaker: false,
+      hasTokensDepositedByMaker: false,
+      takerDecimals: 18,
+      makerDecimals: 18,
     },
     error: '',
   },
@@ -31,24 +36,25 @@ const configSlice = createSlice({
       state.loadingContractState = false;
       state.error = action.payload;
     },
-    depositMakerAsset(state, action) { 
+    depositMakerAsset(state) { 
       state.loadingAction = true;
-      state.contractAddress = action.payload;
     },
-    swapTakerAsset(state, action) { 
+    swapTakerAsset(state) { 
       state.loadingAction = true;
-      state.contractAddress = action.payload;
     },
-    cancelSwap(state, action) { 
+    cancelSwap(state) { 
       state.loadingAction = true;
-      state.contractAddress = action.payload;
+    },
+    approveToken(state) { 
+      state.loadingAction = true;
     },
     actionSuccess(state) {
       state.loadingAction = false;
     },
-    actionFailure(state) {
+    actionFailure(state, action) {
       state.loadingAction = false;
-    },
+      state.error = action.payload;
+    }
   }
 })
 // Extract the action creators object and the reducer
@@ -63,6 +69,7 @@ export const {
   cancelSwap,
   actionSuccess,
   actionFailure,
+  approveToken,
 } = actions;
 // Export the reducer, either as a default or named export
 export default reducer;

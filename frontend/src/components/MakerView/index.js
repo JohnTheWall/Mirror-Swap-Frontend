@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { Grid, Box, Paper } from '@material-ui/core';
 import CustomButton from '../CustomButton';
+import { EMPTY_ADDRESS } from '../../constants'
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -20,8 +21,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap }) => {
+const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap, approveToken }) => {
   const classes = useStyles();
+  const { 
+    swapComplete, 
+    makerAssetAddress, 
+    makerWalletAdress, 
+    makerAssetAmount, 
+    isTokensApprovedByMaker, 
+    hasTokensDepositedByMaker, 
+  } = contractData;
+  const showApproveButton = makerAssetAddress !== EMPTY_ADDRESS && !isTokensApprovedByMaker
   return (
     <Box m={4}>
       <Grid container justify="center">
@@ -38,7 +48,7 @@ const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap }) => 
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" className={classes.title}>
-                  {contractData.makerAssetAddress}
+                  {makerAssetAddress}
                 </Typography>
               </Grid>
             </Grid>
@@ -50,7 +60,7 @@ const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap }) => 
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" className={classes.title}>
-                  {contractData.makerWalletAdress}
+                  {makerWalletAdress}
                 </Typography>
               </Grid>
             </Grid>
@@ -62,24 +72,43 @@ const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap }) => 
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" className={classes.title}>
-                  {contractData.makerAssetAmount}
+                  {makerAssetAmount}
                 </Typography>
               </Grid>
             </Grid>
-            <Grid container justify="space-between">
-              <CustomButton 
-                title="Deposit Asset"
-                onClick={() => depositMakerAsset()}
-                disabled={loading}
-                loading={loading}
-              />
-              <CustomButton 
-                title="Cancel Swap"
-                onClick={() => cancelSwap()}
-                disabled={loading}
-                loading={loading}
-              />
-            </Grid>
+            {
+              !swapComplete && (
+                <Grid container justify="center">
+                  {
+                    showApproveButton ? 
+                    (
+                      <CustomButton 
+                        title="Approve Swap"
+                        onClick={() => approveToken()}
+                        disabled={loading}
+                        loading={loading}
+                      />
+                    ) : !hasTokensDepositedByMaker ? 
+                    (
+                      <CustomButton 
+                        title="Initiate Swap"
+                        onClick={() => depositMakerAsset()}
+                        disabled={loading}
+                        loading={loading}
+                      />
+                    ) :
+                    (
+                      <CustomButton 
+                        title="Cancel Swap"
+                        onClick={() => cancelSwap()}
+                        disabled={loading}
+                        loading={loading}
+                      />
+                    )
+                  }
+                </Grid>
+              ) 
+            }
           </Paper>
         </Grid>
       </Grid>
@@ -92,6 +121,7 @@ MakerView.propTypes = {
   loading: PropTypes.bool.isRequired,
   depositMakerAsset: PropTypes.func.isRequired,
   cancelSwap: PropTypes.func.isRequired,
+  approveToken: PropTypes.func.isRequired,
 };
 
 export default MakerView;

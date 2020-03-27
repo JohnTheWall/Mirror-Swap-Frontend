@@ -8,6 +8,7 @@ import {
   depositMakerAsset,
   swapTakerAsset,
   cancelSwap,
+  approveToken,
 } from './reducer';
 import Loader from '../../components/Loader';
 
@@ -20,17 +21,35 @@ const MirrorSwapContract = ({ getContractState, swapContractAddress, loadingCont
     return <Loader />;
   }
 
+  const makerApproveToken = () => {
+    props.approveToken({
+      tokenContractAddress: props.contractData.makerAssetAddress,
+      spenderAddress: swapContractAddress, 
+      tokenAmount: props.contractData.makerAssetAmount,
+    })
+  }
+
+  const takerApproveToken = () => {
+    props.approveToken({
+      tokenContractAddress: props.contractData.takerAssetAddress,
+      spenderAddress: swapContractAddress, 
+      tokenAmount: props.contractData.takerAssetAmount,
+    })
+  }
+
   return isMaker ? 
     <MakerView 
       contractData={props.contractData}
       depositMakerAsset={() => props.depositMakerAsset(swapContractAddress)}
       cancelSwap={() => props.cancelSwap(swapContractAddress)}
       loading={props.loadingAction}
+      approveToken={makerApproveToken}
     /> : 
     <TakerView 
       contractData={props.contractData}
       loading={props.loadingAction}
       swapTakerAsset={() => props.swapTakerAsset(swapContractAddress)}
+      approveToken={takerApproveToken}
     />;
 }
 
@@ -44,6 +63,7 @@ MirrorSwapContract.propTypes = {
   depositMakerAsset: PropTypes.func.isRequired,
   swapTakerAsset: PropTypes.func.isRequired,
   cancelSwap: PropTypes.func.isRequired,
+  approveToken: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -51,6 +71,7 @@ const mapDispatchToProps = {
   depositMakerAsset,
   swapTakerAsset,
   cancelSwap,
+  approveToken,
 };
 
 const mapStateToProps = (state, ownProps) => ({

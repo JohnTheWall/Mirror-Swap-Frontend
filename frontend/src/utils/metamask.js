@@ -42,7 +42,7 @@ export const getGasPrice = async () => window.web3.eth.getGasPrice();
 
 export const getBalance = async address => {
   const result = await window.web3.eth.getBalance(address)
-  return Number(window.web3.utils.fromWei(result, 'ether'))
+  return result
 };
 
 export const metaMaskAccountsChanged = (callback) => {
