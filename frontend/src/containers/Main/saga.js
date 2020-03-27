@@ -34,7 +34,7 @@ function* deployContract(action) {
     }
 
     if (!(new BigNumber(balance)).isGreaterThanOrEqualTo(makerAssetAmount)) {
-      throw Error('Insufficient Balance!')
+      throw Error(`Currency ${inputCurrency.name}:  Insufficient Balance!`)
     }
 
     if (outputCurrency.symbol !== 'ETH') {

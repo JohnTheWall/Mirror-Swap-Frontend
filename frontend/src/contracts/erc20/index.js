@@ -1,4 +1,5 @@
 import abi from './abi';
+import { getAccounts } from '../../utils/metamask'
 
 class ERC20 {
   constructor(contractAddress) {
@@ -14,6 +15,19 @@ class ERC20 {
   async getBalance(walletAddress) {
     const balance = await this.contract.methods.balanceOf(walletAddress).call();
     return balance;
+  }
+
+  async getAllowance(owner, spender) {
+    const balance = await this.contract.methods.allowance(owner, spender).call();
+    return balance;
+  }
+
+  async approve(spender, tokenAmount) {
+    const fromAccounts = await getAccounts();
+    const from = fromAccounts[0];
+    const txHash = await this.contract.methods.approve(spender, tokenAmount).send({ from });
+
+    return txHash;
   }
 }
 

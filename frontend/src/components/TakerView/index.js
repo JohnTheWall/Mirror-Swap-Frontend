@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { Grid, Box, Paper } from '@material-ui/core';
 import CustomButton from '../CustomButton';
+import { EMPTY_ADDRESS } from '../../constants'
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -20,8 +21,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TakerView = ({ contractData, loading, swapTakerAsset }) => {
+const TakerView = ({ contractData, loading, swapTakerAsset, approveToken }) => {
   const classes = useStyles();
+  const { swapComplete, takerAssetAddress, takerAssetAmount, isTokensApprovedByTaker } = contractData;
+  const showApproveButton = takerAssetAddress !== EMPTY_ADDRESS && !isTokensApprovedByTaker;
+
   return (
     <Box m={4}>
       <Grid container justify="center">
@@ -38,7 +42,7 @@ const TakerView = ({ contractData, loading, swapTakerAsset }) => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" className={classes.title}>
-                  {contractData.takerAssetAddress}
+                  {takerAssetAddress}
                 </Typography>
               </Grid>
             </Grid>
@@ -50,18 +54,35 @@ const TakerView = ({ contractData, loading, swapTakerAsset }) => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" className={classes.title}>
-                  {contractData.takerAssetAmount}
+                  {takerAssetAmount}
                 </Typography>
               </Grid>
             </Grid>
-            <Grid container justify="space-between">
-              <CustomButton 
-                title="Swap Asset"
-                onClick={() => swapTakerAsset()}
-                disabled={loading}
-                loading={loading}
-              />
-            </Grid>
+            {
+              !swapComplete && (
+                <Grid container justify="center">
+                  {
+                    showApproveButton ? 
+                    (
+                      <CustomButton 
+                        title="Approve Asset"
+                        onClick={() => approveToken()}
+                        disabled={loading}
+                        loading={loading}
+                      />
+                    ) : 
+                    (
+                      <CustomButton 
+                        title="Swap Asset"
+                        onClick={() => swapTakerAsset()}
+                        disabled={loading}
+                        loading={loading}
+                      />
+                    )
+                  }
+                </Grid>
+              )
+            }
           </Paper>
         </Grid>
       </Grid>
@@ -73,6 +94,7 @@ TakerView.propTypes = {
   contractData: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   swapTakerAsset: PropTypes.func.isRequired,
+  approveToken: PropTypes.func.isRequired,
 };
 
 export default TakerView;
