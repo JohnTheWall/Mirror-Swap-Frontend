@@ -83,7 +83,7 @@ const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap, appro
                     showApproveButton ? 
                     (
                       <CustomButton 
-                        title="Approve Asset"
+                        title="Approve Swap"
                         onClick={() => approveToken()}
                         disabled={loading}
                         loading={loading}
@@ -91,7 +91,7 @@ const MakerView = ({ contractData, loading, depositMakerAsset, cancelSwap, appro
                     ) : !hasTokensDepositedByMaker ? 
                     (
                       <CustomButton 
-                        title="Deposit Asset"
+                        title="Initiate Swap"
                         onClick={() => depositMakerAsset()}
                         disabled={loading}
                         loading={loading}

@@ -65,7 +65,7 @@ const TakerView = ({ contractData, loading, swapTakerAsset, approveToken }) => {
                     showApproveButton ? 
                     (
                       <CustomButton 
-                        title="Approve Asset"
+                        title="Approve Swap"
                         onClick={() => approveToken()}
                         disabled={loading}
                         loading={loading}
@@ -73,7 +73,7 @@ const TakerView = ({ contractData, loading, swapTakerAsset, approveToken }) => {
                     ) : 
                     (
                       <CustomButton 
-                        title="Swap Asset"
+                        title="Initiate Swap"
                         onClick={() => swapTakerAsset()}
                         disabled={loading}
                         loading={loading}
