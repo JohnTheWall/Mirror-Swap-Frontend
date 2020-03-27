@@ -51,8 +51,8 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <SwapInput
-                      inputValue={state.inputValue}
-                      handleInputChange={(e) => dispatch({ type: 'inputValue', payload: parseFloat(e.target.value, 10) })}
+                      inputValue={state.inputValue.toString()}
+                      handleInputChange={(e) => dispatch({ type: 'inputValue', payload: e.target.value })}
                       currency={state.inputCurrency}
                       handleCurrencyChange={(e, { props }) => dispatch({ type: 'inputCurrency', payload: props.currency })}
                       currencies={currencies}
@@ -69,8 +69,8 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
                       </Button>
                     </div>
                     <SwapInput
-                      inputValue={state.outputValue}
-                      handleInputChange={(e) => dispatch({ type: 'outputValue', payload: parseFloat(e.target.value, 10) })}
+                      inputValue={state.outputValue.toString()}
+                      handleInputChange={(e) => dispatch({ type: 'outputValue', payload: e.target.value })}
                       currency={state.outputCurrency}
                       handleCurrencyChange={(e, { props }) => dispatch({ type: 'outputCurrency', payload: props.currency })}
                       currencies={currencies}

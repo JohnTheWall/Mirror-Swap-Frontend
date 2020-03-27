@@ -58,7 +58,7 @@ const SwapInput = ({
 }
 
 SwapInput.propTypes = {
-  inputValue: PropTypes.number.isRequired,
+  inputValue: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,
   currency: PropTypes.object,
   handleCurrencyChange: PropTypes.func.isRequired,
