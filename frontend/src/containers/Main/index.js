@@ -33,7 +33,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   currencies: state.currency.currencies,
   loading: state.currency.loading || state.contract.loading,
-  isMainnet: state.metamask.networkId === NETWORK_CHAIN_ID.Mainnet
+  isMainnet: state.metamask.networkId === NETWORK_CHAIN_ID.Ropsten
 });
 
 export default connect(

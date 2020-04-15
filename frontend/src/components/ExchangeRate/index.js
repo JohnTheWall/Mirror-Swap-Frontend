@@ -1,30 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
-import { isEmptyObject } from '../../utils';
+import styled from 'styled-components'
+// import { useTranslation } from 'react-i18next'
 
+const LabelRow = styled.div`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: center;
+  color: ${({ theme }) => theme.doveGray};
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.75rem 1rem;
+  background: #eee;
+  width: 89%;
+  margin-left: 14px;
+  border-radius: 0.625rem;
+`
+const spanStyle = {
+  float: 'right'
+}
 const ExchangeRates = ({
   inputCurrency,
   outputCurrency,
 }) => {
-  return (
-    <Grid container justify="space-between">
-      <Typography variant='subtitle1'>
-        Exchange Rate:
-      </Typography>
+  // const { t } = useTranslation()
 
-      {
-        !isEmptyObject(inputCurrency) && !isEmptyObject(outputCurrency) && (
-          <Typography variant='subtitle1'>
-            {
-              `${1} ${inputCurrency.symbol} = ${inputCurrency.exchangeRate/outputCurrency.exchangeRate} ${outputCurrency.symbol}`
-            }
-          </Typography>
-        )
-      }
-    </Grid>
-  );
+  return (
+    <LabelRow>
+      <span>Exchange Rate:</span>
+      <span style={spanStyle}>-</span>
+    </LabelRow>
+  );  
 };
 
 ExchangeRates.propTypes = {

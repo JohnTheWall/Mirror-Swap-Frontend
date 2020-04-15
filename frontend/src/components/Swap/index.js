@@ -1,21 +1,25 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Grid, Box, Paper } from '@material-ui/core';
-import SwapVertIcon from '@material-ui/icons/SwapVert';
+import { Grid } from '@material-ui/core';
 import ExchangeRate from '../ExchangeRate'
-import SwapInput from '../SwapInput';
-import SwapHeader from './SwapHeader';
 import { reducer, initialArg } from './reducer';
 import { isEmptyObject } from '../../utils';
 import CustomButton from '../CustomButton';
 import { Typography } from '@material-ui/core';
+import CurrencyInputPanel from '../CurrencyInputPanel';
+import OversizedPanel from '../OversizedPanel'
+import styled from 'styled-components'
+import ArrowDown from '../../assets/svg/SVGArrowDown'
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
     padding: '10px',
-    display: 'table',
+    display: 'block',
     margin: 'auto',
+    background: "#eee",
+    width: "518px",
+    textAlign: 'center'
   },
   swapButton: {
     background: '#eee',
@@ -23,8 +27,23 @@ const useStyles = makeStyles(theme => ({
   },
   customPaper: {
     padding: theme.spacing(2),
-  }
+  },
 }));
+
+const DownArrowBackground = styled.div`
+  ${({ theme }) => theme.flexRowNoWrap}
+  justify-content: center;
+  align-items: center;
+`
+const WrappedArrowDown = ({ clickable, active, ...rest }) => <ArrowDown {...rest} />
+const DownArrow = styled(WrappedArrowDown)`
+  color: ${({ theme, active }) => (active ? theme.royalBlue : theme.chaliceGray)};
+  width: 0.625rem;
+  height: 0.625rem;
+  position: relative;
+  padding: 0.875rem;
+  cursor: ${({ clickable }) => clickable && 'pointer'};
+`
 
 const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet }) => {
   const classes = useStyles();
@@ -34,76 +53,55 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
     startContractDeployment(state);
   }
 
-  const disableButton = isEmptyObject(state.inputCurrency) || 
-    isEmptyObject(state.outputCurrency) || 
-    state.inputValue <= 0 || 
+  const disableButton = isEmptyObject(state.inputCurrency) ||
+    isEmptyObject(state.outputCurrency) ||
+    state.inputValue <= 0 ||
     state.outputValue <= 0 ||
     loading ||
     !isMainnet ||
     !user.address;
-
   return (
-    <Box m={4}>
-      <Grid container justify="center">
-        <Grid item xs={10} sm={7}>
-          <Paper variant="outlined" className={classes.customPaper}>
-            <SwapHeader title="Swap"/>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <SwapInput
-                      inputValue={state.inputValue.toString()}
-                      handleInputChange={(e) => dispatch({ type: 'inputValue', payload: e.target.value })}
-                      currency={state.inputCurrency}
-                      handleCurrencyChange={(e, { props }) => dispatch({ type: 'inputCurrency', payload: props.currency })}
-                      currencies={currencies}
-                      inputLabel="input"
-                      selectLabel="currency"
-                    />
-                    <div className={classes.swapButtonContainer}>
-                      <Button 
-                        className={classes.swapButton} 
-                        onClick={(e) => dispatch({ type: 'handleSwap' })} 
-                        disabled={!(state.inputValue && state.outputValue)}
-                      >
-                        <SwapVertIcon color="primary" />
-                      </Button>
-                    </div>
-                    <SwapInput
-                      inputValue={state.outputValue.toString()}
-                      handleInputChange={(e) => dispatch({ type: 'outputValue', payload: e.target.value })}
-                      currency={state.outputCurrency}
-                      handleCurrencyChange={(e, { props }) => dispatch({ type: 'outputCurrency', payload: props.currency })}
-                      currencies={currencies}
-                      inputLabel="output"
-                      selectLabel="currency"
-                    />
-                    <ExchangeRate
-                      inputCurrency={state.inputCurrency}
-                      outputCurrency={state.outputCurrency}
-                    />
-                  </Grid>
-                  <Grid container direction="column" alignItems="center">
-                    <Grid item xs={4}>
-                      <CustomButton 
-                        title="Swap"
-                        disabled={disableButton}
-                        onClick={handleSwapButtonClick}
-                        loading={loading}
-                      />
-                    </Grid>
-                    {
-                      !isMainnet && (
-                        <Typography variant='subtitle1'>
-                          We are only supporting Mainnet!
-                        </Typography>
-                      )
-                    }
-                  </Grid>
-                </Grid>
-            </Paper>
-        </Grid>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <CurrencyInputPanel
+          title='Input'
+          showBalance />
+
+        <div className={classes.swapButtonContainer}>
+        <OversizedPanel>
+        <DownArrowBackground>
+          <DownArrow
+            clickable
+            alt="swap"
+            active="true"
+          />
+        </DownArrowBackground>
+      </OversizedPanel>
+        </div>
+        <CurrencyInputPanel title='Output' />
+        <ExchangeRate
+          inputCurrency={state.inputCurrency}
+          outputCurrency={state.outputCurrency}
+        />
       </Grid>
-    </Box>
+      <Grid container direction="column" alignItems="center">
+        <Grid item xs={4}>
+          <CustomButton
+            title="Deploy Swap"
+            disabled={disableButton}
+            onClick={handleSwapButtonClick}
+            loading={loading}
+          />
+        </Grid>
+        {
+          !isMainnet && (
+            <Typography variant='subtitle1'>
+              We are only supporting Mainnet!
+            </Typography>
+          )
+        }
+      </Grid>
+    </Grid>
   );
 };
 

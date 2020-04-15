@@ -5,30 +5,55 @@ import { connect } from 'react-redux';
 import Snackbars from '../components/SnackBars';
 import { setClose } from '../containers/Notifications/reducer';
 import { connectMetamask } from '../containers/Metamask/reducer'
-import Header from '../components/Header/'
-import DialogBox from '../components/Dialog'
 import { push } from 'connected-react-router'
+import { Grid, Box, makeStyles } from '@material-ui/core';
+import NavigationTabs from '../components/NavigationTabs';
+import { BrowserRouter } from 'react-router-dom';
+import Header from '../components/Header';
+import styled from 'styled-components'
+
+const useStyles = makeStyles(theme => ({
+  swapButtonContainer: {
+    padding: '10px',
+    display: 'table',
+    margin: 'auto',
+  },
+  swapButton: {
+    background: '#eee',
+    color: '#000 !important',
+  },
+  customPaper: {
+    padding: theme.spacing(2),
+  },
+}));
+
+const HeaderWrapper = styled.div`
+  ${({ theme }) => theme.flexRowNoWrap}
+  width: 100%;
+  justify-content: space-between;
+`
 
 const App = (props) => {
   const { setClose, isAvailable, connectMetamask, user } = props
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const classes = useStyles();
 
   return (
     <React.Fragment>
       <Snackbars {...props.notifications} setClose={setClose} />
-      <Header
-        user={user}
-        isAvailable={isAvailable}
-        setIsDialogOpen={setIsDialogOpen}
-        goToHome={() => props.push('/')}
-      />
-      <DialogBox
-        isDialogOpen={isDialogOpen}
-        setIsDialogOpen={setIsDialogOpen}
-        connectMetamask={connectMetamask}
-        user={user}
-      />
-      {routes}
+      <HeaderWrapper>
+        <Header />
+      </HeaderWrapper>
+      <Box m={4}>
+        <Grid container justify="center">
+          <Grid item xs={10} sm={5}>
+            <BrowserRouter>
+              <NavigationTabs />
+              {routes}
+            </BrowserRouter>
+          </Grid>
+        </Grid>
+      </Box>
     </React.Fragment>
   )
 };

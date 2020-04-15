@@ -11,20 +11,24 @@ const useStyles = makeStyles(theme => ({
     marginTop: -12,
     marginLeft: -12,
   },
+  button: {
+    textTransform: 'none'
+  }
 }));
 
 const CustomButton = ({ disabled, onClick, title, loading }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Button 
-        variant="contained" 
-        color="primary" 
+      <Button
+        className={classes.button}
+        variant="contained"
+        color="primary"
         disabled={disabled}
         onClick={onClick}
       >
         {title}
-      {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+        {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
       </Button>
     </React.Fragment>
   )
@@ -38,6 +42,3 @@ CustomButton.propTypes = {
 }
 
 export default CustomButton
-
-
-

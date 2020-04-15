@@ -1,68 +1,105 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import React from 'react'
+import styled from 'styled-components'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  address: {
-    border: ' 1px solid #fff',
-    borderRadius: '47px'
+import { Link } from '../../theme'
+// import Web3Status from '../Web3Status'
+import { darken } from 'polished'
+
+const HeaderFrame = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 23px;
+`
+
+const HeaderElement = styled.div`
+  margin: 1.25rem;
+  display: flex;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+`
+
+const Nod = styled.span`
+  transform: rotate(0deg);
+  transition: transform 150ms ease-out;
+
+  :hover {
+    transform: rotate(-10deg);
   }
-}));
+`
 
-const Header = ({ user, isAvailable, setIsDialogOpen, goToHome }) => {
-  const classes = useStyles();
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 22px;
 
-  const { address } = user
-  const addressLength = address.length
-  const shortAddressString = address.substr(0, 6) + '...' + address.substr(addressLength - 4, addressLength)
+  :hover {
+    cursor: pointer;
+  }
 
+  #link {
+    text-decoration-color: ${({ theme }) => theme.UniswapPink};
+  }
+
+  #title {
+    display: inline;
+    font-size: 1rem;
+    font-weight: 500;
+    color: ${({ theme }) => theme.wisteriaPurple};
+    :hover {
+      color: ${({ theme }) => darken(0.2, '#3f51b5')};
+    }
+  }
+`
+const CurrencySelect = styled.button`
+  align-items: center;
+  font-size: 1rem;
+  color: ${({ selected, theme }) => (selected ? theme.textColor : theme.royalBlue)};
+  height: 2rem;
+  border: 1px solid ${({ selected, theme }) => (selected ? theme.mercuryGray : theme.royalBlue)};
+  border-radius: 2.5rem;
+  background-color: white;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  border-color: #d8d4d4;
+  float: right;
+  margin-right: 18px;
+  :hover {
+    border: 1px solid
+      ${({ selected, theme }) => (selected ? darken(0.2, '#3f51b5') : darken(0.2, '#3f51b5'))};
+      background-color: #1d3fff;
+      color: white;
+  }
+
+  :focus {
+    border: 1px solid ${({ theme }) => darken(0.2, '#3f51b5')};
+  }
+
+  :active {
+    background-color: ${({ theme }) => theme.zumthorBlue};
+  }
+`
+
+const Header = () => {
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Button color="inherit" onClick={goToHome}>
-          Mirror Swap
-        </Button>
-        <Typography variant="button" className={classes.title}></Typography>
-        {!!user.address
-          ? <Button
-            color="inherit"
-            className={classes.address}
-          >
-            {`Account: ${shortAddressString}`}
-          </Button>
-          : (isAvailable
-            &&
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setIsDialogOpen(true)}
-            >
-              Connect Account
-            </Button>)
-        }
-      </Toolbar>
-    </AppBar>
-  );
+    <HeaderFrame>
+      <Title>
+        <Nod>
+          <Link id="link" href="/#">
+          </Link>
+        </Nod>
+        <Link id="link" href="/#">
+          <h1 id="title">Mirror Swap</h1>
+        </Link>
+      </Title>
+      <CurrencySelect>
+        Connect Account
+        </CurrencySelect>
+    </HeaderFrame>
+  )
 }
-
-Header.propTypes = {
-  user: PropTypes.object.isRequired,
-  isAvailable: PropTypes.bool.isRequired,
-  setIsDialogOpen: PropTypes.func.isRequired,
-  goToHome: PropTypes.func.isRequired,
-};
 
 export default Header;
