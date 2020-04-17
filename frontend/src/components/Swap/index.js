@@ -12,11 +12,11 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
-    padding: '10px',
+    padding: theme.spacing(1),
     display: 'block',
     margin: 'auto',
     background: "#eee",
-    width: "518px",
+    width: "91%",
     textAlign: 'center'
   },
   swapButton: {
@@ -53,9 +53,9 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
           title='Input'
           showBalance />
 
-        <div className={classes.swapButtonContainer}>
+        <Grid className={classes.swapButtonContainer}>
           <ArrowDownwardIcon fontSize="small" />
-        </div>
+        </Grid>
         <CurrencyInputPanel title='Output' />
         <ExchangeRate
           inputCurrency={state.inputCurrency}
