@@ -8,9 +8,7 @@ import { isEmptyObject } from '../../utils';
 import CustomButton from '../CustomButton';
 import { Typography } from '@material-ui/core';
 import CurrencyInputPanel from '../CurrencyInputPanel';
-import OversizedPanel from '../OversizedPanel'
-import styled from 'styled-components'
-import ArrowDown from '../../assets/svg/SVGArrowDown'
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -28,22 +26,10 @@ const useStyles = makeStyles(theme => ({
   customPaper: {
     padding: theme.spacing(2),
   },
+  customeGrid: {
+    paddingTop: theme.spacing(2)
+  }
 }));
-
-const DownArrowBackground = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap}
-  justify-content: center;
-  align-items: center;
-`
-const WrappedArrowDown = ({ clickable, active, ...rest }) => <ArrowDown {...rest} />
-const DownArrow = styled(WrappedArrowDown)`
-  color: ${({ theme, active }) => (active ? theme.royalBlue : theme.chaliceGray)};
-  width: 0.625rem;
-  height: 0.625rem;
-  position: relative;
-  padding: 0.875rem;
-  cursor: ${({ clickable }) => clickable && 'pointer'};
-`
 
 const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet }) => {
   const classes = useStyles();
@@ -61,22 +47,14 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
     !isMainnet ||
     !user.address;
   return (
-    <Grid container spacing={2}>
+    <Grid className={classes.customeGrid} container spacing={2}>
       <Grid item xs={12}>
         <CurrencyInputPanel
           title='Input'
           showBalance />
 
         <div className={classes.swapButtonContainer}>
-        <OversizedPanel>
-        <DownArrowBackground>
-          <DownArrow
-            clickable
-            alt="swap"
-            active="true"
-          />
-        </DownArrowBackground>
-      </OversizedPanel>
+          <ArrowDownwardIcon fontSize="small" />
         </div>
         <CurrencyInputPanel title='Output' />
         <ExchangeRate
