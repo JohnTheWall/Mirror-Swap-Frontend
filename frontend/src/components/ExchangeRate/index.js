@@ -1,34 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components'
-// import { useTranslation } from 'react-i18next'
+import { Typography, Grid, makeStyles } from '@material-ui/core';
 
-const LabelRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: center;
-  color: ${({ theme }) => theme.doveGray};
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.75rem 1rem;
-  background: #eee;
-  width: 89%;
-  margin-left: 14px;
-  border-radius: 0.625rem;
-`
-const spanStyle = {
-  float: 'right'
-}
-const ExchangeRates = ({
-  inputCurrency,
-  outputCurrency,
-}) => {
-  // const { t } = useTranslation()
+const useStyles = makeStyles(theme => ({
+  customGrid: {
+    display: 'flex',
+    width: '95%',
+    margin: 'auto',
+    background: '#eee',
+    borderRadius: '0px 0px 15px 15px'
+  },
+  customeTypography: {
+    marginInlineStart: 'auto',
+    paddingRight: theme.spacing(1)
+  },
+  exchangeRate: {
+    fontSize: 13,
+    paddingLeft: theme.spacing(1)
+  }
+}));
 
+const ExchangeRates = () => {
+
+  const classes = useStyles()
   return (
-    <LabelRow>
-      <span>Exchange Rate:</span>
-      <span style={spanStyle}>-</span>
-    </LabelRow>
+    <Grid className={classes.customGrid}>
+      <Typography className={classes.exchangeRate}>Exchange Rate:</Typography>
+      <Typography className={classes.customeTypography}>-</Typography>
+    </Grid>
   );  
 };
 
