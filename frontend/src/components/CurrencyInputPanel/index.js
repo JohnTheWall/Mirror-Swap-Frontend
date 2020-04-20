@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TokenLogo from '../TokenLogo'
 import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
-import { Grid, Typography, Button } from '@material-ui/core';
+import { Grid, Typography, Button, Modal } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import SearchIcon from '@material-ui/icons/Search';
+import ClearIcon from '@material-ui/icons/Clear';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import etherLogo from '../../assets/images/ethereum-logo.svg'
 
 const useStyles = makeStyles(theme => ({
+  modalList: {
+    width: '99%',
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    margin: 'auto',
+    marginBottom: '10px',
+  },
   paper: {
     borderRadius: '1rem',
     padding: theme.spacing(1.5)
@@ -31,11 +44,98 @@ const useStyles = makeStyles(theme => ({
     marginInlineStart: 'auto',
     margin: 'auto',
     marginRight: 'inherit',
+  },
+  modalPaper: {
+    width: '40%',
+    height: '60%',
+    margin: 'auto',
+    marginTop: '8%',
+    borderRadius: '1rem',
+    outline: 'none',
+    marginBottom: '8%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  modalGrid: {
+    display: 'flex',
+  },
+  clearIcon: {
+    marginInlineStart: 'auto',
+    padding: theme.spacing(2),
+    "&:hover, &:focus": {
+      color: '#FF0000'
+    },
+  },
+  modalTypography: {
+    padding: theme.spacing(2)
+  },
+  modalInput: {
+    width: '90%',
+    fontSize: 18
+  },
+  searchIcon: {
+    padding: theme.spacing(1),
+  },
+  priceGrid: {
+    marginInlineStart: 'auto'
+  },
+  selectTypography: {
+    color: '#a29e9e',
+    fontSize: 15,
+  },
+  selectLogo: {
+    height: '90%',
+    width: '5%',
+    paddingRight: '3%',
+  },
+  listItem: {
+    padding: theme.spacing(2),
+    "&:hover, &:focus": {
+      background: '#eee'
+    },
   }
+
 }));
 
 const CurrencyInputPanel = (props) => {
   const classes = useStyles();
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleModalOpen = (value) => {
+    setIsOpen(value)
+  }
+
+  const body = (
+    <>
+      <Grid className={classes.modalGrid}>
+        <Typography className={classes.modalTypography}>Select Token</Typography>
+        <ClearIcon className={classes.clearIcon} onClick={() => handleModalOpen(false)} />
+      </Grid>
+      <Grid className={classes.modalGrid}>
+        <SearchIcon className={classes.searchIcon} />
+        <InputBase
+          className={classes.modalInput}
+          placeholder='Search Token Name, Symbol, or Address'
+          type='text'
+        />
+      </Grid>
+      <List className={classes.modalList}>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+          <ListItem className={classes.listItem} key={`item-${item}-${item}`}>
+            <img src={etherLogo} className={classes.selectLogo} />
+            <Grid >
+              <Typography>ETH</Typography>
+              <Typography className={classes.selectTypography}>Etherium</Typography>
+            </Grid>
+            <Grid className={classes.priceGrid}>
+              <Typography>0.017</Typography>
+              <Typography className={classes.selectTypography}>$1.3</Typography>
+            </Grid>
+          </ListItem>
+        ))}
+      </List>
+    </>
+  )
 
   return (
     <Paper className={classes.paper} variant="outlined" square>
@@ -51,12 +151,22 @@ const CurrencyInputPanel = (props) => {
           placeholder='0.0'
           type='tel'
         />
-        <Button className={classes.customeButton} variant="contained">
+        <Button className={classes.customeButton} onClick={() => handleModalOpen(true)} variant="contained">
           <TokenLogo address='ETH' />
           ETH
           <ExpandMoreIcon />
         </Button>
       </Grid>
+      <Modal
+        open={isOpen}
+        onClose={() => handleModalOpen(false)}
+        disableAutoFocus={true}
+        className={classes.modal}
+      >
+        <Paper className={classes.modalPaper} square>
+          {body}
+        </Paper>
+      </Modal>
     </Paper>
   )
 }
