@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core';
@@ -23,7 +22,6 @@ const useStyles = makeStyles(theme => ({
 function NavigationTabs(props) {
   const classes = useStyles()
   const handelClick = (path) => {
-    console.log(path)
     push(path)
   }
   return (
@@ -33,7 +31,8 @@ function NavigationTabs(props) {
     >
       {
         props.tabs.map(
-          ({ label, path }) => <Tab value={label}
+          ({ label, path }, index) => <Tab value={label}
+            key={index}
             label={label}
             className={classes.tab}
             onClick={() => handelClick(path)} />
@@ -43,4 +42,4 @@ function NavigationTabs(props) {
   )
 }
 
-export default withRouter(NavigationTabs)
+export default NavigationTabs
