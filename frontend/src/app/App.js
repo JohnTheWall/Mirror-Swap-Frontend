@@ -4,11 +4,10 @@ import { startSaga } from './rootSaga';
 import { connect } from 'react-redux';
 import Snackbars from '../components/SnackBars';
 import { setClose } from '../containers/Notifications/reducer';
-import { connectMetamask } from '../containers/Metamask/reducer'
-import { push } from 'connected-react-router'
+import { push, ConnectedRouter } from 'connected-react-router'
 import { Grid, Box } from '@material-ui/core';
 import NavigationTabs from '../components/NavigationTabs';
-import { BrowserRouter } from 'react-router-dom';
+import { history } from '../app/store';
 import Header from '../components/Header';
 
 const App = (props) => {
@@ -20,11 +19,11 @@ const App = (props) => {
       <Box m={4}>
         <Grid container justify="center">
           <Grid item xs={10} sm={5}>
-            <BrowserRouter>
+            <ConnectedRouter history={history}>
               <NavigationTabs
                 tabs={tabs} />
               {routes}
-            </BrowserRouter>
+            </ConnectedRouter>
           </Grid>
         </Grid>
       </Box>
@@ -34,7 +33,6 @@ const App = (props) => {
 
 const matchDispatchToProps = {
   setClose,
-  connectMetamask,
   push,
 };
 
