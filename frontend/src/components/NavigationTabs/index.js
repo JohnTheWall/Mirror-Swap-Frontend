@@ -2,7 +2,6 @@ import React from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core';
-import { push } from 'connected-react-router';
 
 const useStyles = makeStyles(theme => ({
   tab: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 function NavigationTabs(props) {
   const classes = useStyles()
   const handelClick = (path) => {
-    push(path)
+    props.push(path)
   }
   return (
     <Tabs
