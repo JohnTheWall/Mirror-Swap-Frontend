@@ -1,6 +1,8 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import { Grid, makeStyles, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { connectMetamask } from '../../containers/Metamask/reducer';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -14,20 +16,33 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'flex-end',
     marginInlineStart: 'auto'
   },
-    grid: {
-      padding: theme.spacing(3),
-      display: 'flex',
-    },
-  }));
+  grid: {
+    padding: theme.spacing(3),
+    display: 'flex',
+  },
+}));
 
-const Header = () => {
+const Header = (props) => {
   const classes = useStyles()
+  console.log(props.userAddress)
   return (
-    <Grid className={classes.grid} xs={12}>
+    <Grid item className={classes.grid} xs={12}>
       <Typography variant="h6">Mirror Swap</Typography>
-      <Button className={classes.button}>Connect Account</Button>
+      <Button
+        className={classes.button}
+        onClick={() => props.connectMetamask()}>
+        {props.userAddress ? props.userAddress : 'Connect Account'}
+      </Button>
     </Grid>
   )
 }
 
-export default Header;
+const mapDispatchToProps = {
+  connectMetamask
+}
+
+const mapStateToProps = (state) => ({
+  userAddress: state.user.address
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
