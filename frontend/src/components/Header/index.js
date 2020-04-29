@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
 
 const Header = (props) => {
   const classes = useStyles()
-  console.log(props.userAddress)
   return (
     <Grid item className={classes.grid} xs={12}>
       <Typography variant="h6">Mirror Swap</Typography>

@@ -8,9 +8,9 @@ const getOutputValue = (inputValue, inputCurrency, outputCurrency) => {
 }
 
 export const initialArg = {
-  inputValue: 0,
+  inputValue: null,
   inputCurrency: {},
-  outputValue: 0,
+  outputValue: null,
   outputCurrency: {},
 };
 

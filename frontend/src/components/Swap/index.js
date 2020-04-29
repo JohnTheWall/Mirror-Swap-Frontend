@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
@@ -34,6 +34,11 @@ const useStyles = makeStyles(theme => ({
 const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet }) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialArg);
+  const [exchangeRate, setExchangeRate] = useState(null)
+
+  useEffect(() => {
+    setExchangeRate(state.inputCurrency.exchangeRate / state.outputCurrency.exchangeRate)
+  }, [state.inputCurrency, state.outputCurrency])
 
   const handleSwapButtonClick = () => {
     startContractDeployment(state);
@@ -51,15 +56,26 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
       <Grid item xs={12}>
         <CurrencyInputPanel
           title='Input'
-          showBalance />
-
+          showBalance
+          handleInputChange={(e) => dispatch({ type: 'inputValue', payload: e.target.value })}
+          handleCurrencyChange={(currency) => dispatch({ type: 'inputCurrency', payload: currency })}
+          currencies={currencies}
+          value={state.inputValue}
+        />
         <Grid className={classes.swapButtonContainer}>
           <ArrowDownwardIcon fontSize="small" />
         </Grid>
-        <CurrencyInputPanel title='Output' />
+        <CurrencyInputPanel
+          title='Output'
+          handleCurrencyChange={(currency) => dispatch({ type: 'outputCurrency', payload: currency })}
+          handleInputChange={(e) => dispatch({ type: 'outputValue', payload: e.target.value })}
+          currencies={currencies}
+          value={state.outputValue}
+        />
         <ExchangeRate
           inputCurrency={state.inputCurrency}
           outputCurrency={state.outputCurrency}
+          rate={exchangeRate}
         />
       </Grid>
       <Grid container direction="column" alignItems="center">
