@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import ExchangeRate from '../ExchangeRate'
 import { reducer, initialArg } from './reducer';
 import { isEmptyObject } from '../../utils';
@@ -9,6 +9,7 @@ import CustomButton from '../CustomButton';
 import { Typography } from '@material-ui/core';
 import CurrencyInputPanel from '../CurrencyInputPanel';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(theme => ({
   swapButtonContainer: {
@@ -28,7 +29,18 @@ const useStyles = makeStyles(theme => ({
   },
   customeGrid: {
     paddingTop: theme.spacing(2)
-  }
+  },
+  openSwapButton: {
+    width: '100%',
+    borderRadius: '2.5rem',
+    background: '#eee',
+    marginBottom: '3%',
+    height: '10%',
+    "&:hover, &:focus": {
+      background: theme.palette.primary.main,
+      color: '#FFF'
+    }
+  },
 }));
 
 const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet }) => {
@@ -61,6 +73,10 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
   return (
     <Grid className={classes.customeGrid} container spacing={2}>
       <Grid item xs={12}>
+        <Button className={classes.openSwapButton} >
+          My Open Swaps
+          <ExpandMoreIcon />
+        </Button>
         <CurrencyInputPanel
           title='Input'
           showBalance
