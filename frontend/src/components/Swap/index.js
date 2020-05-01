@@ -43,7 +43,6 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
   const handleSwapButtonClick = () => {
     startContractDeployment(state);
   }
-
   const disableButton = isEmptyObject(state.inputCurrency) ||
     isEmptyObject(state.outputCurrency) ||
     state.inputValue <= 0 ||
@@ -51,6 +50,14 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
     loading ||
     !isMainnet ||
     !user.address;
+
+  const handleInputOutputSwap = () => {
+    dispatch({ type: 'inputValue', payload: state.outputValue })
+    dispatch({ type: 'inputCurrency', payload: state.outputCurrency })
+    dispatch({ type: 'outputCurrency', payload: state.inputCurrency })
+    dispatch({ type: 'outputValue', payload: state.inputValue })
+  }
+
   return (
     <Grid className={classes.customeGrid} container spacing={2}>
       <Grid item xs={12}>
@@ -61,9 +68,10 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
           handleCurrencyChange={(currency) => dispatch({ type: 'inputCurrency', payload: currency })}
           currencies={currencies}
           value={state.inputValue}
+          selectedCurrency={state.inputCurrency}
         />
         <Grid className={classes.swapButtonContainer}>
-          <ArrowDownwardIcon fontSize="small" />
+          <ArrowDownwardIcon onClick={handleInputOutputSwap} fontSize="small" />
         </Grid>
         <CurrencyInputPanel
           title='Output'
@@ -71,6 +79,7 @@ const Swap = ({ currencies, startContractDeployment, loading, user, isMainnet })
           handleInputChange={(e) => dispatch({ type: 'outputValue', payload: e.target.value })}
           currencies={currencies}
           value={state.outputValue}
+          selectedCurrency={state.outputCurrency}
         />
         <ExchangeRate
           inputCurrency={state.inputCurrency}
