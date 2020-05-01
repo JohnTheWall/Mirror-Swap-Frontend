@@ -9,6 +9,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import etherLogo from '../../assets/images/ethereum-logo.svg'
+import { isEmptyObject } from '../../utils';
 
 const useStyles = makeStyles(theme => ({
   modalList: {
@@ -38,12 +39,21 @@ const useStyles = makeStyles(theme => ({
     width: '75%',
     fontSize: 30
   },
-  customeButton: {
+  customeButtonBefore: {
+    borderRadius: '2.5rem',
+    marginInlineStart: 'auto',
+    margin: 'auto',
+    marginRight: 'inherit',
+    width: 'auto',
+    whiteSpace: 'nowrap'
+  },
+  customeButtonAfter: {
     borderRadius: '2.5rem',
     marginInlineStart: 'auto',
     margin: 'auto',
     marginRight: 'inherit',
     width: '15%',
+    whiteSpace: 'nowrap'
   },
   modalPaper: {
     width: '40%',
@@ -97,6 +107,9 @@ const useStyles = makeStyles(theme => ({
     "&:hover, &:focus": {
       background: '#eee'
     },
+  },
+  customeDiv: {
+    display: 'inherit'
   }
 
 }));
@@ -104,8 +117,8 @@ const useStyles = makeStyles(theme => ({
 const CurrencyInputPanel = (props) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedCurrency, setSelectedCurrency] = useState({symbol: 'ETH'})
-  
+  const [selectedCurrency, setSelectedCurrency] = useState({ symbol: 'ETH' })
+
   const handleModalOpen = (value) => {
     setIsOpen(value)
   }
@@ -131,7 +144,7 @@ const CurrencyInputPanel = (props) => {
         />
       </Grid>
       <List className={classes.modalList}>
-      {props.currencies && props.currencies.map(option => (
+        {props.currencies && props.currencies.map(option => (
           <ListItem onClick={(e) => handleCurrenctSelected(option)} className={classes.listItem} key={`item-${option.id}`}>
             <img src={etherLogo} className={classes.modalLogo} />
             <Grid >
@@ -139,7 +152,7 @@ const CurrencyInputPanel = (props) => {
               <Typography className={classes.selectTypography}>{option.name}</Typography>
             </Grid>
             <Grid className={classes.priceGrid}>
-      <Typography>{option.exchangeRate.toFixed(4)}</Typography>
+              <Typography>{option.exchangeRate.toFixed(4)}</Typography>
               <Typography className={classes.selectTypography}>$1.3</Typography>
             </Grid>
           </ListItem>
@@ -164,10 +177,12 @@ const CurrencyInputPanel = (props) => {
           onChange={props.handleInputChange}
           value={props.value ? props.value : ''}
         />
-        <Button className={classes.customeButton} onClick={() => handleModalOpen(true)} variant="contained">
-          <img src={etherLogo} className={classes.selectLogo} />
-         {selectedCurrency.symbol}
-          <ExpandMoreIcon />
+        <Button className={!isEmptyObject(props.selectedCurrency) ? classes.customeButtonAfter : classes.customeButtonBefore} onClick={() => handleModalOpen(true)} variant="contained">
+          {!isEmptyObject(props.selectedCurrency) ? <div className={classes.customeDiv}>
+            <img src={etherLogo} className={classes.selectLogo} />
+            {props.selectedCurrency.symbol}
+            <ExpandMoreIcon />
+          </div> : 'Select a Token'}
         </Button>
       </Grid>
       <Modal
