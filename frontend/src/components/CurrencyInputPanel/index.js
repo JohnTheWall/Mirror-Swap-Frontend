@@ -45,7 +45,8 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     marginRight: 'inherit',
     width: 'auto',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    textTransform: 'none',
   },
   customeButtonAfter: {
     borderRadius: '2.5rem',

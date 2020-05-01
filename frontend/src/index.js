@@ -7,14 +7,18 @@ import store, { history } from './app/store';
 import App from './app/App';
 import './index.css';
 import { ConnectedRouter } from 'connected-react-router';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from './theme'
 
 const render = () => {
   ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>
+    </ThemeProvider>,
     document.getElementById('root')
   )
 }

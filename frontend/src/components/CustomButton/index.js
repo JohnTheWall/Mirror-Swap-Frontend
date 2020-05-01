@@ -12,7 +12,15 @@ const useStyles = makeStyles(theme => ({
     marginLeft: -12,
   },
   button: {
-    textTransform: 'none'
+    textTransform: 'none',
+    borderRadius: '2.5rem',
+    width: '107%',
+    background: theme.palette.primary.main,
+    color: '#FFF',
+    "&:hover, &:focus": {
+      background: theme.palette.primary.main,
+      color: '#FFF'
+    },
   }
 }));
 
@@ -23,7 +31,6 @@ const CustomButton = ({ disabled, onClick, title, loading }) => {
       <Button
         className={classes.button}
         variant="contained"
-        color="primary"
         disabled={disabled}
         onClick={onClick}
       >

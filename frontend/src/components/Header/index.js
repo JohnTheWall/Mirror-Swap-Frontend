@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '2.5rem',
     height: 'fit-content',
     "&:hover, &:focus": {
-      background: '#0000FF',
+      background: theme.palette.primary.main,
       color: '#FFFFFF'
     },
     alignContent: 'flex-end',
